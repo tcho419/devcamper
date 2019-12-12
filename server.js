@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
 // Route files
 const bootcamps = require('./routes/bootcamps');
@@ -9,15 +10,21 @@ dotenv.config({ path: './config/config.env' });
 
 const app = express();
 
-/*
-app.get('/', (req, res) => {
-  //res.send('Hello from express'); // This sends a simple text message or HTML
-  // res.json sends JSON and can also do res.sendStatus
+/*  Example for simple express route
+ *
+ * app.get('/', (req, res) => {
+ *  res.send('Hello from express'); // This sends a simple text message or HTML
+ *  res.json sends JSON and can also do res.sendStatus
+ *
+ *  // good way is to manually chain repsonse and status
+ *  res.status(200).json({ success: true, data: { id: 1 }});
+ * });
+ */
 
-  // good way is to manually chain repsonse and status
-  res.status(200).json({ success: true, data: { id: 1 }});
-});
-*/
+// Dev logging middleware
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);
