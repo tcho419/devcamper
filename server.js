@@ -26,6 +26,9 @@ const app = express();
  * });
  */
 
+// Body parser
+app.use(express.json());
+
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -44,7 +47,7 @@ const server = app.listen(
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
-  console.log(`Error: ${err.message}`);
+  console.log(`Error: ${err.message}`.red);
 
   // close server and exit process if error
   server.close(() => process.exit(1));
